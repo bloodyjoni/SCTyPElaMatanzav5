@@ -32,7 +32,7 @@ import com.plugin.gcm.PushPlugin;
 import android.app.Activity;
 import android.util.Log;
 import android.view.Menu;
-
+//Activity Principal
 public class HelloCordova extends CordovaActivity 
 {
 
