@@ -9,14 +9,14 @@ function bddhandler(){
 
 }
 function populateDB(tx) { 
-	tx.executeSql('DROP TABLE IF EXISTS Eventos');
+/*	tx.executeSql('DROP TABLE IF EXISTS Eventos');
 	tx.executeSql('DROP TABLE IF EXISTS ExtraEventos');
 	tx.executeSql('DROP TABLE IF EXISTS Noticias');
 	tx.executeSql('DROP TABLE IF EXISTS ExtraNoticias');
 	tx.executeSql('DROP TABLE IF EXISTS PPublicasCategorias');
 	tx.executeSql('DROP TABLE IF EXISTS PPublicasContent');
 	tx.executeSql('DROP TABLE IF EXISTS ExtraPPublicas');
-	
+*/	
 	tx.executeSql('CREATE TABLE IF NOT EXISTS Eventos (id INTEGER PRIMARY KEY , Titulo, text, FechaIni, FechaFin, img TEXT DEFAULT \'false\')');
 	//   tx.executeSql('INSERT INTO Eventos (id, Titulo, text, FechaIni, FechaFin) VALUES ("1" ,"Permitido Soñar","Eventos uno","2014-03-15","2014-03-18" )');
 	
