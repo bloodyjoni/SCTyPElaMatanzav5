@@ -352,7 +352,8 @@ function getExtrasResults(tx,results,type){
 		else if(results.rows.item(i).key =="url"){
 			//alert("url changing"+ results.rows.item(i).value);
 			$('#extratempl').append($('<div/>')
-					.append($('<a/>', {    //here appending `<a>` into `<li>`
+					.append($('<a/>', { //here appending `<a>` into `<li>`
+						'id':'extraURL',
 						'href': "#",
 						'data-href': results.rows.item(i).value,
 						'text': "URL",
@@ -360,6 +361,10 @@ function getExtrasResults(tx,results,type){
 						//'onclick': "openExternalURL();"
 						'onclick': "window.open($(this).attr(\"data-href\"), '_system', 'location=no');"
 					})));
+		}
+		else if(results.rows.item(i).key =="urltext"){
+			//alert("url changing"+ results.rows.item(i).value);
+			$('#extraURL').text(results.rows.item(i).value);
 		}
 		else if(results.rows.item(i).key =="img"){
 			//alert("img changing");
