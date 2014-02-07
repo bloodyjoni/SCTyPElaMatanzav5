@@ -9,14 +9,14 @@ function bddhandler(){
 
 }
 function populateDB(tx) { 
-/*	tx.executeSql('DROP TABLE IF EXISTS Eventos');
+	tx.executeSql('DROP TABLE IF EXISTS Eventos');
 	tx.executeSql('DROP TABLE IF EXISTS ExtraEventos');
 	tx.executeSql('DROP TABLE IF EXISTS Noticias');
 	tx.executeSql('DROP TABLE IF EXISTS ExtraNoticias');
 	tx.executeSql('DROP TABLE IF EXISTS PPublicasCategorias');
 	tx.executeSql('DROP TABLE IF EXISTS PPublicasContent');
 	tx.executeSql('DROP TABLE IF EXISTS ExtraPPublicas');
-*/	
+	
 	tx.executeSql('CREATE TABLE IF NOT EXISTS Eventos (id INTEGER PRIMARY KEY , Titulo, text, FechaIni, FechaFin, img TEXT DEFAULT \'false\')');
 	//   tx.executeSql('INSERT INTO Eventos (id, Titulo, text, FechaIni, FechaFin) VALUES ("1" ,"Permitido Soñar","Eventos uno","2014-03-15","2014-03-18" )');
 	
@@ -24,7 +24,7 @@ function populateDB(tx) {
 	// tx.executeSql('INSERT INTO Noticias (id, Titulo, text, FechaIni, FechaFin) VALUES ("1" ,"Permitido Soñar","Eventos dos","2014-03-15","2014-03-18" )');
 	tx.executeSql('CREATE TABLE IF NOT EXISTS ExtraEventos (externalId INTEGER , key, value, PRIMARY KEY (externalId,key))');
 	tx.executeSql('CREATE TABLE IF NOT EXISTS ExtraNoticias (externalId INTEGER , key, value, PRIMARY KEY (externalId,key))');
-	tx.executeSql('CREATE TABLE IF NOT EXISTS PPublicasContent (id INTEGER, catid INTEGER, Titulo, fulltext, introtext, PRIMARY KEY (id,catid))');
+	tx.executeSql('CREATE TABLE IF NOT EXISTS PPublicasContent (id INTEGER, catid INTEGER, Titulo, fulltext, introtext, img TEXT DEFAULT \'false\', PRIMARY KEY (id,catid))');
 	tx.executeSql('CREATE TABLE IF NOT EXISTS PPublicasCategorias (id INTEGER, Titulo, PRIMARY KEY (id,Titulo))');
 	tx.executeSql('CREATE TABLE IF NOT EXISTS ExtraPPublicas(externalId INTEGER , key, value, PRIMARY KEY (externalId,key))');
 }

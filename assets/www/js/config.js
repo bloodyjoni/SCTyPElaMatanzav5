@@ -14,8 +14,11 @@ function setLocalConfig(strKey,strValue){
 document.addEventListener("deviceready",function (){
 	firstLocalConfig();}, false);
 function firstLocalConfig(){
+	setLocalConfig("appContentPath","file://.");
 	if(getLocalConfig("rootURL")==undefined)
 		setLocalConfig("rootURL","http://www.proyectored.com.ar/mobile/");
+	if(getLocalConfig("rootURL2")==undefined)
+		setLocalConfig("rootURL2","http://www.colectivocientifico.com.ar/");
 	if(getLocalConfig("appContentPath")==undefined)
 		setLocalConfig("appContentPath","file://.");
 	if(getLocalConfig("mailContact")==undefined || getLocalConfig("mailContact")=="diguet.jonathan@gmail.com")

@@ -13,7 +13,7 @@ function querySuccessPPublicas(tx, results,catid) {
 	var len = results.rows.length;
 	console.log("Tabla PPublicasContent: " + len + " filas encontradas.");
 	$('#PPublicasCat'+catid).empty();
-//$('#PPublicasCat'+catid).append('<ul></ul>');//here appending `<ul>` into `<li>`
+//$('#PPublicasCat'+catid).append='<ul></ul>');//here appending `<ul>` into `<li>`
 		
 	for (var i=0; i<len; i++){
 		//	alert(results.rows.item(i).img);
@@ -134,7 +134,8 @@ function updatePPublicasDB(data){
 														+ obj[i].FechaFin
 														+ "')");*/
 	var type='PPublicas';
-	db.transaction(function(tx){insertPPublicasDB(tx,obj.data)},function (err){errorUpdate(err,"PPublicasContent")},function (){successUpdate("PPublicasContent");}); 
+	if(obj.data !=null)
+	db.transaction(function(tx){insertPPublicasDB(tx,obj.data)},function (err){errorUpdate(err,"PPublicasContent")},function (){successUpdate("PPublicasContent");updateExtraPPublicas(obj.extras);}); 
 //	db.transaction(function(tx){insertPPublicasDB(tx,obj[1])},function (err){errorUpdate(err,"PPublicasContent")},function (){successUpdate("PPublicasContent");}); 
 }
 
@@ -215,12 +216,26 @@ function updatePPublicasCat(){
  */
 function insertExtraPPublicasDB(tx,obj){
 	//for(var j=0; typeof(obj[j])!= "undefined";j++){
-	//alert("inside  insert Extra PPublicas");
+	alert("inside  insert Extra PPublicas");
+	alert(obj);
 	for(var i = 0; i<obj.length; i++){
+
 		for(var j=0;j<obj[i].length;j++){
-		//	alert(obj[i][j]);
-		//	alert(obj[i][j].externalId  + obj[i][j].key +obj[i][j].value)
+			alert(obj[i][j]);
+			alert(obj[i][j].externalId  + obj[i][j].key +obj[i][j].value)
 			if(obj[i][j].externalId && obj[i][j].key && obj[i][j].value){	
+				if(obj[i][j].key=="img"){ 
+						enableImg(obj[i][j].externalId,"PPublicasContent");
+						downloadImg(obj[i][j],"PPublicas");
+					tx.executeSql('INSERT INTO ExtraPPublicas (externalId, key, value) VALUES ("'
+							+ obj[i][j].externalId
+							+ '","'
+							+ obj[i][j].key
+							+ '","'
+							+ obj[i][j].externalId // Como las imagenes son guardadas sigun el id del elementos a que se refieren value=externalId
+							+ '")');
+					}
+				else{
 				tx.executeSql('INSERT INTO ExtraPPublicas (externalId, key, value) VALUES ("'
 						+ obj[i][j].externalId
 						+ '","'
@@ -228,13 +243,11 @@ function insertExtraPPublicasDB(tx,obj){
 						+ '","'
 						+ obj[i][j].value
 						+ '")');
-				if(obj[i][j].key=="img"){ 
-					enableImg(obj[i][j].externalId,"PPublicas");
-					downloadImg(obj[i][j].externalId,"PPublicas");
 				}
 			}
 		}
 	}
+	successUpdate("PPublicasCat");
 	//	}
 }
 
@@ -253,10 +266,10 @@ function updateExtraPPublicasDB(data){
 													+ "','"
 													+ obj[i].FechaFin
 													+ "')");*/
-	db.transaction(function(tx){insertExtraPPublicasDB(tx,obj);},function (err){errorUpdate(err,"ExtrasPPublicas")},function (){successUpdate("ExtrasPPublicas");});
+//	db.transaction(function(tx){insertExtraPPublicasDB(tx,obj);},function (err){errorUpdate(err,"ExtrasPPublicas")},function (){successUpdate("ExtrasPPublicas");});
 }
 
-function updateExtraPPublicas() {
+function updateExtraPPublicas(obj) {
 	//if(typeof(diferenceStr)==='undefined') diferenceStr = "+0 day";
-	getPPublicasIds();
+	db.transaction(function(tx){insertExtraPPublicasDB(tx,obj);},function (err){errorUpdate(err,"ExtrasPPublicas")},function (){successUpdate("ExtrasPPublicas");});
 }

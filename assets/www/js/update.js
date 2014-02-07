@@ -250,47 +250,53 @@ function updateExtraEventos() {
  * 
  * 
  */
-function downloadImg(id,type){
-	window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, function(fileSystem){onFileSystemSuccess(fileSystem,type,id);}, fail);
+function downloadImg(obj,type){
+	window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, function(fileSystem){onFileSystemSuccess(fileSystem,type,obj);}, fail);
 }
 
-function onFileSystemSuccess(fileSystem,type,id) {
+function onFileSystemSuccess(fileSystem,type,obj) {
 	//alert("directory is "+fileSystem.root.fullPath+type);
 	//GeneralConf.appContentPath= fileSystem.root.fullPath;
-	fileSystem.root.getDirectory("com.elovillo.cytype", {create: true}, function (dirEntry){ onCytypeDirSuccess(dirEntry,type,id); },fail);
+	fileSystem.root.getDirectory("Android/data/com.elovillo.cytype", {create: true}, function (dirEntry){ onCytypeDirSuccess(dirEntry,type,obj); },onFileSystemSuccessInternal(fileSystem,type,obj)); // si no esta disponible la tarjeta SD and por memoria interna
 
 }
-function onCytypeDirSuccess(dirEntry,type,id){
+function onFileSystemSuccessInternal(fileSystem,type,obj) {
+	//alert("directory is "+fileSystem.root.fullPath+type);
+	//GeneralConf.appContentPath= fileSystem.root.fullPath;
+	fileSystem.root.getDirectory("/data/data/com.elovillo.cytype", {create: true}, function (dirEntry){ onCytypeDirSuccess(dirEntry,type,obj); },fail);
+
+}
+function onCytypeDirSuccess(dirEntry,type,obj){
 	
-	dirEntry.getDirectory("files", {create: true}, function(dirEntry){ onFilesDirSuccess(dirEntry,type,id);}, fail);
+	dirEntry.getDirectory("files", {create: true}, function(dirEntry){ onFilesDirSuccess(dirEntry,type,obj);}, fail);
 }
-function onFilesDirSuccess(dirEntry,type,id){
-	dirEntry.getDirectory("content", {create: true}, function(dirEntry){ onContentDirSuccess(dirEntry,type,id);}, fail);
+function onFilesDirSuccess(dirEntry,type,obj){
+	dirEntry.getDirectory("content", {create: true}, function(dirEntry){ onContentDirSuccess(dirEntry,type,obj);}, fail);
 }
-function onContentDirSuccess(dirEntry,type,id){
+function onContentDirSuccess(dirEntry,type,obj){
 	console.log(getLocalConfig("appContentPath"));
-	if(getLocalConfig("appContentPath")=="file://.")
+	if(getLocalConfig("appContentPath")=="file://.") // si no content path ya defenido 
 		setLocalConfig("appContentPath",dirEntry.fullPath);
-	dirEntry.getDirectory("images", {create: true}, function(dirEntry){ onImagesDirSuccess(dirEntry,type,id);}, fail);
+	dirEntry.getDirectory("images", {create: true}, function(dirEntry){ onImagesDirSuccess(dirEntry,type,obj);}, fail);
 }
-function onImagesDirSuccess(dirEntry,type,id){
-	dirEntry.getDirectory(type, {create: true}, function (dirEntry){onTypeDirSuccess(dirEntry,type,id);},fail);
+function onImagesDirSuccess(dirEntry,type,obj){
+	dirEntry.getDirectory(type, {create: true}, function (dirEntry){onTypeDirSuccess(dirEntry,type,obj);},fail);
 }
-function onTypeDirSuccess(dirEntry,type,id){
+function onTypeDirSuccess(dirEntry,type,obj){
 	console.log("directory is "+dirEntry.fullPath);
 	dirEntry.getFile(
-			"dummy"+type+".html", {create: true, exclusive: false}, function (fileEntry){gotTypeFileEntry(fileEntry,type,id);}	,fail);
+			"dummy"+type+".html", {create: true, exclusive: false}, function (fileEntry){gotTypeFileEntry(fileEntry,type,obj);}	,fail);
 }
-function gotTypeFileEntry(fileEntry,type,id) {
+function gotTypeFileEntry(fileEntry,type,obj) {
 	var sPath = fileEntry.fullPath.replace("dummy"+type+".html","");
 	var fileTransfer = new FileTransfer();
 	//fileEntry.remove();
 
 	fileTransfer.download(
-			getLocalConfig("rootURL")+'/content/images/'+type+'/'+id+'.jpg',
-			sPath + id+".jpg",
+			getLocalConfig("rootURL2")+obj.value,
+			sPath + obj.externalId+".jpg",
 			function(theFile) {
-				console.log("download complete: " + theFile.toURI());
+				console.log("download complete: " + theFile.toURL());
 			},
 			function(error) {
 				console.log("download error source " + error.source);
