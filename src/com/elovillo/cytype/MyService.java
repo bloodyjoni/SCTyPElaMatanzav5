@@ -39,7 +39,7 @@ private String mHelloTo = "World";
 	 * Substitute you own sender ID here. This is the project number you got
 	 * from the API Console, as described in "Getting Started."
 	 */
-	String SENDER_ID = "947988773826";
+	String SENDER_ID = "903631975028";//cambiado por el de colectivo cientifico
 	String ADD_TOKEN_SCRIPT ="http://www.proyectored.com.ar/mobile/GCMServ/addtoken.php?uuid=";
 	String DELETE_TOKEN_SCRIPT =  "http://www.proyectored.com.ar/mobile/GCMServ/deletetoken.php?token=";
 	/**
