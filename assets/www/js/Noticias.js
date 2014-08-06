@@ -31,7 +31,7 @@ function querySuccessNoticias(tx, results) {
 					'text': results.rows.item(i).Titulo
 				})));
 
-		$('#NoticiasList).listview('refresh');
+		$('#NoticiasList').listview('refresh');
 		//alert($('#NoticiasCat'+catid).html());
 	}
 	//alert($('#NoticiasCat'+catid).html());
